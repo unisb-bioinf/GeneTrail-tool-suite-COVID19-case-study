@@ -9,6 +9,7 @@ require(SingleCellExperiment)
 
 data = readMM("matrix.mtx")
 metadata = read.table("matrix.metadata", sep="\t", quote="\"")
+r = read.table("matrix.features", stringsAsFactors=F)
 
 data = data[,metadata$cell_type_fine == "CD14 Monocyte"]
 colnames(data) = rownames(metadata)[metadata$cell_type_fine == "CD14 Monocyte"]
@@ -21,8 +22,6 @@ sce = SingleCellExperiment(list(abc=data))
 colData(sce)$sample_id = metadata$Donor_full[metadata$cell_type_fine == "CD14 Monocyte"]
 colData(sce)$cluster_id = metadata$cell_type_fine[metadata$cell_type_fine == "CD14 Monocyte"]
 colData(sce)$group_id = metadata$Ventilated[metadata$cell_type_fine == "CD14 Monocyte"]
-
-r = read.table("matrix.features", stringsAsFactors=F)
 
 pb = aggregateData(sce)
 
